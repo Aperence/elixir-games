@@ -1,0 +1,12 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: server-nodes
+  namespace: default
+spec:
+  clusterIP: None
+  selector:
+    app: server
+  ports:
+    - name: epmd
+      port: 4369
