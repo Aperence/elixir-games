@@ -1,0 +1,39 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cleaning
+spec:
+  schedule: "*/5 * * * *"
+  successfulJobsHistoryLimit: 0
+  failedJobsHistoryLimit: 0
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: service-account
+          containers:
+          - name: cleaner
+            image: aperence/bomberman-cleaning
+            env:
+              - name: DELETE_DELAY
+                value: "30"  # game servers that are 30 minutes up
+              - name: KUBERNETES
+                value: "true"
+              - name: username
+                valueFrom:
+                  secretKeyRef:
+                    name: mongo-creds
+                    key: username
+              - name: password
+                valueFrom:
+                  secretKeyRef:
+                    name: mongo-creds
+                    key: password
+              - name: db
+                valueFrom:
+                  secretKeyRef:
+                    name: mongo-creds
+                    key: db
+              - name: MONGODB_URI
+                value: "mongodb://$(username):$(password)@mongodb:27017/$(db)"
+          restartPolicy: OnFailure

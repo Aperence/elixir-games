@@ -5,12 +5,14 @@ defmodule RoomInfo do
 
   defimpl Mongo.Encoder do
     def encode(%RoomInfo{id: id, server: server, key: key, players: players, server_ready: server_ready}) do
+      now = :os.system_time(:millisecond)
       %{
         _id: id,
         server: server,
         key: key,
         players: players,
-        server_ready: server_ready
+        server_ready: server_ready,
+        creationTime: now
       }
     end
   end

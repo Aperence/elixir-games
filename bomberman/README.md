@@ -6,6 +6,8 @@
 
 3. Run the game client using `cd frontend && python3 src/game.py`
 
+4. For cleaning the unused rooms in the database, you can use the following command `cd cleaner && mix cluster.clean` or make a cronjob of it
+
 ## Running on Kubernetes
 
 1. First, you'll have to build the necessary images to run the server and the db on your Kubernetes cluster.
